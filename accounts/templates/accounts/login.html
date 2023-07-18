@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 {% block title %} Log in {% endblock %}
+
+{% load static %}
 {% block style %}
 <style>
     body {
@@ -13,8 +15,23 @@
     }
 
     form fieldset {
+        overflow: hidden;
+        height: 0;
         background-color: #63372C;
         border-color: #262322;
+        transition: height 1s;
+    }
+
+    .gg {
+        height: 180px;
+    }
+
+    .signup-login {
+        text-align: center;
+    }
+    .signup-login a:hover {
+        color: #63372C;
+        text-shadow: white 1px 1px;
     }
 </style>
 {% endblock %}
@@ -37,5 +54,8 @@
                 </li>
             </ul>
         </fieldset>
+        <h4 class="signup-login">Don't have an account? <a href="{% url 'signup' %}">Sign Up!</a> or <a href="{% url 'home' %}">Continue as Guest</a></h4>
     </form>
+    <script src="{% static 'script/script.js' %}"></script>
+
 {% endblock %}

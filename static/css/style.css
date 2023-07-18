@@ -60,3 +60,11 @@ form input[type=submit]:hover {
     color: gray;
     cursor: pointer;
 }
+
+.signup-login {
+    text-align: center;
+}
+.signup-login a:hover {
+    color: #028090;
+    text-shadow: white 1px 1px;
+}
