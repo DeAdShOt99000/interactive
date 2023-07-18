@@ -1,0 +1,50 @@
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 30px;
+    background-color: cadetblue;
+    /* align-content: center; */
+}
+
+nav div {
+    text-align: center;
+    text-decoration: none;
+    height: 100%;
+    width: 100%;
+}
+nav div:hover {
+    cursor: pointer;
+    background-color: aquamarine;
+}
+
+nav div img {
+    vertical-align: middle;
+}
+
+.account-btn-menu {
+    display: none;
+    position: absolute;
+    height: 60px;
+    bottom: -60px;
+    left: 50%;
+    transform: translateX(-50%);
+    /* display: flex; */
+    flex-direction: column;
+    align-items: center;
+    width: 100px;
+    background-color: aquamarine;
+    padding: 0 5px;
+}
+
+.account-btn-menu a{
+    text-decoration: none;
+    text-align: center;
+    width: 100%;
+    padding: 5px;
+}
+
+.account-btn-menu a:hover {
+    background-color: chartreuse;
+}
+

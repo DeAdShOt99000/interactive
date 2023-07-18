@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Interactive
+{% endblock title %}
+
+{% load static %}
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/home-style.css' %}">
+{% endblock %}
+
+{% block content %}
+    <nav>
+        <div href="">Todo Tasks</div>
+        <div href="">Notes</div>
+        <div href="">Statistics</div>
+        <div href="">Balance</div>
+        <div id="account-btn" href="">
+            <div style="position: relative;">
+                <img class="user-logo" src="{% static 'img/user.png' %}" alt="user-logo">
+                {% if user.is_authenticated %}
+                    {{ user.first_name }} {{ user.last_name }}
+                {% endif %}
+                    <div class="account-btn-menu">
+                        {% if user.is_authenticated %}
+                            <a href="{% url 'logout' %}">Log out</a>
+                        {% else %}
+                            <a href="{% url 'login' %}">Log in</a>
+                            <a href="{% url 'signup' %}">Sign Up</a>
+                        {% endif %}
+                    </div>
+            </div>
+        </div>
+    </nav>
+    <script src="{% static 'script/script.js' %}"></script>
+    
+{% endblock content %}
+    

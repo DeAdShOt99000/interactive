@@ -1,0 +1,62 @@
+body {
+    font-family: Verdana;
+    font-weight: bolder;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    background-color: #B1DDF1;
+    color: white;
+}
+
+.user-logo {
+    width: 18px;
+}
+
+form {
+    width: 550px;
+    padding: 5px;
+    /* margin: auto; */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+form legend {
+    text-align: center;
+    color: #028090;
+    background-color: #2A2D34;
+    padding: 5px;
+    border-top: 2px solid #028090;
+}
+
+form fieldset {
+    border-radius: 10px;
+    border: 2px solid #028090;
+    background-color: #2A2D34;
+}
+
+form ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+form ul li {
+    padding: 10px;
+    text-align: center;
+}
+
+form input[type=submit]{
+    padding: 5px;
+    border-radius: 10px;
+    background-color: gray;
+    border-color: #ffff;
+    color: #ffff;
+}
+
+form input[type=submit]:hover {
+    background-color: #C4CAD0;
+    border-color: gray;
+    color: gray;
+    cursor: pointer;
+}
