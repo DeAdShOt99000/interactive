@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+    Verify Email
+{% endblock title %}
+    
+{% block content %}
+<span style="display: none;" id="csrf-t">{% csrf_token %}</span>
+    <form action="{% url 'signup' %}" method="post">
+        {% csrf_token %}
+        <h1>Verify your email</h1>
+        <p>We sent a 4-digit verification code to {{ email }}</p>
+        <input type="text" name="v-code-input" id="v-code-input">
+        <input type="hidden" name="email" id="email" value="{{ email }}">
+        {% if code_failed %}
+        <h4 style="color: red;">Wrong code, try again.</h4>
+        {% endif %}
+        <input type="submit" value="Verify">
+    </form>
+    <span class="resend-cd">10</span>
+    <button class="resend" disabled>Re-send code</button>
+
+    <script>
+        const resendCd = document.querySelector('.resend-cd')
+        const totalWaitTime = 10
+        let x = totalWaitTime
+        // while (x > 0){
+        //     console.log(x)
+        //     setTimeout(function(){
+        //         resendCd.innerText = x
+        //     }, 1000)
+        //     x--
+        // }
+
+        const resendBtn = document.querySelector('.resend')
+        function countDown(){
+            resendCd.innerText = x
+            x--
+            if (x >= 0){
+                setTimeout(countDown, 1000)
+            }
+            else {
+                resendBtn.removeAttribute('disabled')
+                resendCd.innerText = ''
+            }
+        }
+        countDown()
+        
+        resendBtn.addEventListener('click', fetchResend)
+        
+        function fetchResend(){
+            fetch("{% url 'resed-verification' %}", {
+                method: 'post',
+                body: JSON.stringify({
+                    email: "{{ email }}"
+                }),
+                headers: {
+                    'Content-type': 'application/json',
+                    'X-CSRFToken': document.querySelector('#csrf-t input').value,
+                }
+            })
+            .then(data => {
+                resendBtn.setAttribute('disabled', 'disabled')
+                x = totalWaitTime
+                countDown()
+            })
+        }
+
+    </script>
+{% endblock content %}
+    

@@ -1,0 +1,26 @@
+{% load static %}
+<nav>
+    <div><a class="nav-op home-op" href="{% url 'home' %}">Home</a></div>
+    <div><a class="nav-op todo-op" href="{% url 'today-todo' %}">Todo Tasks</a></div>
+    <div><a class="nav-op notes-op" href="">Notes</a></div>
+    <div><a class="nav-op statistics-op" href="">Statistics</a></div>
+    <div><a class="nav-op balance-op" href="">Balance</a></div>
+    <div>
+        <div class="account-btn-container">
+            <div class="nav-op">
+                <img src="{% static 'img/user.png' %}" alt="user-logo">
+                {% if user.is_authenticated %}
+                    <span>{{ user.first_name }} {{ user.last_name }}</span>
+                {% endif %}
+                <div class="menu">
+                    {% if user.is_authenticated %}
+                        <a class="nav-op" href="{% url 'logout' %}">Log out</a>
+                    {% else %}
+                        <a class="nav-op" href="{% url 'login' %}">Log in</a>
+                        <a class="nav-op" href="{% url 'signup' %}">Sign up</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>

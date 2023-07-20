@@ -6,35 +6,26 @@
 
 {% load static %}
 {% block head %}
+    <link rel="stylesheet" href="{% static 'css/nav-bar-style.css' %}">
     <link rel="stylesheet" href="{% static 'css/home-style.css' %}">
 {% endblock %}
 
+
+{% block style %}
+    <style>
+        nav > div .home-op {
+            background-color: #60AFFF;
+            color: white;
+            text-shadow: #00171F .5px .5px .5px;
+        }
+    </style>
+{% endblock style %}
+    
+
 {% block content %}
-    <nav>
-        <div><a class="nav-op" href="">Todo Tasks</a></div>
-        <div><a class="nav-op" href="">Notes</a></div>
-        <div><a class="nav-op" href="">Statistics</a></div>
-        <div><a class="nav-op" href="">Balance</a></div>
-        <div>
-            <div class="account-btn-container">
-                <div class="nav-op">
-                    <img src="{% static 'img/user.png' %}" alt="user-logo">
-                    {% if user.is_authenticated %}
-                        <span>{{ user.first_name }} {{ user.last_name }}</span>
-                    {% endif %}
-                    <div class="menu">
-                        {% if user.is_authenticated %}
-                            <a class="nav-op" href="{% url 'logout' %}">Log out</a>
-                        {% else %}
-                            <a class="nav-op" href="{% url 'login' %}">Log in</a>
-                            <a class="nav-op" href="{% url 'signup' %}">Sign up</a>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </nav>
-    <!-- <script src="{% static 'script/script.js' %}"></script> -->
+    {% include 'partials/nav-bar.html' %}
+    
+    <!-- <script src="{% static 'js/script.js' %}"></script> -->
     
 {% endblock content %}
     

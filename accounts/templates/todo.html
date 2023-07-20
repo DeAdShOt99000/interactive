@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Todo{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/nav-bar-style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/todo-style.css' %}">
+{% endblock %}
+
+
+{% block style %}
+    <style>
+        nav > div .todo-op {
+            background-color: #60AFFF;
+            color: white;
+            text-shadow: #00171F .5px .5px .5px;
+        }
+    </style>
+{% endblock style %}
+    
+
+{% block content %}
+    {% include 'partials/nav-bar.html' %}
+    <div class="container">
+        <div class="top-bar">
+            <label for="select-date">Select date: </label>
+            <input type="date" name="select-date" id="select-date" value="{{ date|date:'Y-m-d' }}">
+            <button class="add-task-btn">Add Task</button>
+            <button class="remove-task-btn">Remove Task</button>
+        </div>
+        <div class="todo-container">
+            <span id="csrf" style="display: none;">{{ csrf_token }}</span>
+
+            <form class="add-task-form task-form" action="" method="post">
+                {% csrf_token %}
+                <ul>
+                    <li>
+                        <label for="task">Task: </label>
+                        <input type="task" name="task" id="task">
+                    </li>
+                    <li>
+                        <label for="date">Date: </label>
+                        <input type="date" name="date" id="date" value="{{ date|date:'Y-m-d' }}">
+                    </li>
+                    <li>
+                        <input type="submit" value="Add +">
+                    </li>
+                </ul>
+            </form>
+
+            <form class="remove-task-form task-form" action="{% url 'remove-tasks' date %}" method="post">
+                {% csrf_token %}
+                <h3>Select the tasks that you want to remove:</h3>
+                <div class="all-tasks-rm-container"></div>
+                <input type="submit" value="Remove -">
+            </form>
+
+            <h1>{{ date|date:'Y/m/d' }}</h1>
+            <h2>{{ date|date:'l' }}</h2>
+            <div id="tasks-container">
+                <img src="{% static 'img/spinner.gif' %}" alt="loading...">
+            </div>
+            <div style="font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande'; font-style: italic;" class="done-count-container"></div>
+            <a class="prev-day pn-btn" href="{% url 'todo' prev_day %}">Previous Day</a>
+            <a class="next-day pn-btn" href="{% url 'todo' next_day %}">Next Day</a>
+        </div>
+    </div>
+
+    
+    <script src="{% static 'js/todo_script.js' %}"></script>
+{% endblock %}

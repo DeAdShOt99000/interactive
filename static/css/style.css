@@ -12,7 +12,7 @@ body {
     width: 18px;
 }
 
-form {
+form.center-form {
     width: 550px;
     padding: 5px;
     /* margin: auto; */
@@ -22,7 +22,7 @@ form {
     transform: translate(-50%, -50%);
 }
 
-form legend {
+form.center-form legend {
     text-align: center;
     color: #028090;
     background-color: #2A2D34;
@@ -30,23 +30,23 @@ form legend {
     border-top: 2px solid #028090;
 }
 
-form fieldset {
+form.center-form fieldset {
     border-radius: 10px;
     border: 2px solid #028090;
     background-color: #2A2D34;
 }
 
-form ul {
+form.center-form ul {
     list-style-type: none;
     padding: 0;
 }
 
-form ul li {
+form.center-form ul li {
     padding: 10px;
     text-align: center;
 }
 
-form input[type=submit]{
+form.center-form input[type=submit]{
     padding: 5px;
     border-radius: 10px;
     background-color: gray;
@@ -54,7 +54,7 @@ form input[type=submit]{
     color: #ffff;
 }
 
-form input[type=submit]:hover {
+form.center-form input[type=submit]:hover {
     background-color: #C4CAD0;
     border-color: gray;
     color: gray;
@@ -64,6 +64,7 @@ form input[type=submit]:hover {
 .signup-login {
     text-align: center;
 }
+
 .signup-login a:hover {
     color: #028090;
     text-shadow: white 1px 1px;

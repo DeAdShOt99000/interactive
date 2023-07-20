@@ -36,7 +36,7 @@
 </style>
 {% endblock %}
 {% block content %}
-    <form action="" method="post">
+    <form class="center-form" action="" method="post">
         {% csrf_token %}
         <fieldset>
             <legend>Log in</legend>
@@ -56,6 +56,6 @@
         </fieldset>
         <h4 class="signup-login">Don't have an account? <a href="{% url 'signup' %}">Sign Up!</a> or <a href="{% url 'home' %}">Continue as Guest</a></h4>
     </form>
-    <script src="{% static 'script/script.js' %}"></script>
+    <script src="{% static 'js/script.js' %}"></script>
 
 {% endblock %}

@@ -1,0 +1,89 @@
+.container {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.top-bar {
+    background-color: black;
+    height: 31px;
+    max-width: 500px;
+    text-align: center;
+}
+
+.top-bar button {
+    margin: 5px;
+    border-style: solid;
+}
+
+.add-task-btn {
+    border-color: green;
+    color: green;
+    background-color: cadetblue;
+}
+
+.remove-task-btn {
+    border-color: red;
+    color: red;
+    background-color:darksalmon;
+}
+
+.todo-container {
+    position: relative;
+    background-color: beige;
+    width: 500px;
+    color: black;
+    overflow: auto;
+    text-align: center;
+}
+
+#tasks-container {
+    text-align: left;
+    padding: 10px;
+}
+
+.prev-day {
+    float: left;
+}
+
+.next-day {
+    float: right;
+}
+
+.pn-btn {
+    padding: 10px;
+}
+
+.task-form {
+    display: none;
+    position: absolute;
+    width: 496px;
+    text-align: center;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    
+}
+
+.task-form ul {
+    list-style-type: none;
+    padding: 5px;
+}
+
+.task-form ul li {
+    padding: 5px;
+}
+
+.add-task-form {
+    background-color: cadetblue;
+    border: 2px solid green;
+}
+
+.remove-task-form {
+    background-color: darksalmon;
+    border: 2px solid red;
+}
+
+.all-tasks-rm-container {
+    text-align: left;
+}
