@@ -12,10 +12,9 @@
         <h1>Verify your email</h1>
         <p>We sent a 4-digit verification code to {{ email }}</p>
         <input type="text" name="v-code-input" id="v-code-input">
-        <input type="hidden" name="email" id="email" value="{{ email }}">
-        {% if code_failed %}
-        <h4 style="color: red;">Wrong code, try again.</h4>
-        {% endif %}
+
+        <h4 style="color: red;"></h4>
+        
         <input type="submit" value="Verify">
     </form>
     <span class="resend-cd">10</span>
@@ -25,14 +24,8 @@
         const resendCd = document.querySelector('.resend-cd')
         const totalWaitTime = 10
         let x = totalWaitTime
-        // while (x > 0){
-        //     console.log(x)
-        //     setTimeout(function(){
-        //         resendCd.innerText = x
-        //     }, 1000)
-        //     x--
-        // }
 
+        const csrf = document.querySelector('#csrf-t input').value
         const resendBtn = document.querySelector('.resend')
         function countDown(){
             resendCd.innerText = x
@@ -48,8 +41,33 @@
         countDown()
         
         resendBtn.addEventListener('click', fetchResend)
+
+        document.querySelector('form').addEventListener('submit', function(evt){
+            evt.preventDefault();
+            fetch("{% url 'signup' %}", {
+                method: 'post',
+                body: JSON.stringify({
+                    email: '{{ email }}',
+                    'v-code-input': document.getElementById('v-code-input').value
+                }),
+                headers: {
+                    'Content-type': 'application/json',
+                    'X-CSRFToken': csrf
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.code_failed == true){
+                    document.querySelector('h4').innerText = 'Wrong code, try again.'
+                }
+                else {
+                    document.body.innerHTML = `<h1>Sign Up Success!</h1><a href="{% url 'home' %}">Go to Home page</a>`
+                }
+            })
+        })
         
         function fetchResend(){
+            resendBtn.setAttribute('disabled', 'disabled')
             fetch("{% url 'resed-verification' %}", {
                 method: 'post',
                 body: JSON.stringify({
@@ -57,11 +75,10 @@
                 }),
                 headers: {
                     'Content-type': 'application/json',
-                    'X-CSRFToken': document.querySelector('#csrf-t input').value,
+                    'X-CSRFToken': csrf,
                 }
             })
             .then(data => {
-                resendBtn.setAttribute('disabled', 'disabled')
                 x = totalWaitTime
                 countDown()
             })

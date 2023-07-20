@@ -40,18 +40,20 @@ class SignUp(View):
         # return HttpResponse(template.render())
         return render(request, 'accounts/signup.html')
     def post(self, request):
-        v_code_input = request.POST.get('v-code-input')
-        email = request.POST.get('email')
+        data = json.loads(request.body)
+        v_code_input = data.get('v-code-input')
+        email = data.get('email')
         if v_code_input and email:
             try:
                 queued_user = SignUpQueue.objects.get(email=email)
             except:
                 return HttpResponse('Nope.')
             if queued_user.v_code == v_code_input:
-                User.objects.create_user(username=queued_user.username, password=queued_user.password, email=email, first_name=queued_user.first_name, last_name=queued_user.last_name)
+                newuser = User.objects.create_user(username=queued_user.username, password=queued_user.password, email=email, first_name=queued_user.first_name, last_name=queued_user.last_name)
                 queued_user.delete()
-                return HttpResponse('Sign up Success!')
-            return render(request, 'accounts/verify-email.html', {'email': email, 'code_failed': True})
+                login(request, newuser)
+                return JsonResponse({'code_failed': False}, safe=False)
+            return JsonResponse({'code_failed': True}, safe=False)
             
         # firstname = request.POST['firstname']
         # lastname = request.POST['lastname']
