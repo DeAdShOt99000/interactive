@@ -58,7 +58,7 @@
             <h1>{{ date|date:'Y/m/d' }}</h1>
             <h2>{{ date|date:'l' }}</h2>
             <div id="tasks-container">
-                <img src="{% static 'img/spinner.gif' %}" alt="loading...">
+                <img width="50px" src="{% static 'img/spinner.gif' %}" alt="loading...">
             </div>
             <div style="font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande'; font-style: italic;" class="done-count-container"></div>
             <a class="prev-day pn-btn" href="{% url 'todo' prev_day %}">Previous Day</a>

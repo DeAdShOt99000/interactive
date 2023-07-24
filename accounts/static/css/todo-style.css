@@ -13,6 +13,7 @@
 }
 
 .top-bar button {
+    border-radius: 5px;
     margin: 5px;
     border-style: solid;
 }
@@ -27,6 +28,20 @@
     border-color: red;
     color: red;
     background-color:darksalmon;
+}
+
+.add-task-btn:hover {
+    cursor: pointer;
+    border-color: cadetblue;
+    color: cadetblue;
+    background-color: green;
+}
+
+.remove-task-btn:hover {
+    cursor: pointer;
+    border-color: darksalmon;
+    color: darksalmon;
+    background-color: red;
 }
 
 .todo-container {

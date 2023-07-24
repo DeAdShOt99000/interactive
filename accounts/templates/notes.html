@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+    Notes
+{% endblock title %}
+
+{% load static %}
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/nav-bar-style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/notes-style.css' %}">
+{% endblock %}
+
+{% block style %}
+    <style>
+        nav > div .notes-op {
+            background-color: #60AFFF;
+            color: white;
+            text-shadow: #00171F .5px .5px .5px;
+        }
+    </style>
+{% endblock style %}
+
+{% block content %}
+    {% include 'partials/nav-bar.html' %}
+    <div class="top-bar">
+        <button class="add-note">Add Note</button>
+    </div>
+    <span style="display: none;" class="csrf">{% csrf_token %}</span>
+    <span style="display: none;" class="star-logo-src">{% static 'img/star-logo.png' %}</span>
+    <span style="display: none;" class="gold-star-logo-src">{% static 'img/gold-star-logo.png' %}</span>
+    <span style="display: none;" class="delete-logo-src">{% static 'img/delete-logo.png' %}</span>
+    <div class="notes-container">
+        <h2 class="no-notes-add-note">No Notes, <span>Add</span> your first note!</h2>
+        <img src="{% static 'img/spinner.gif' %}" class="loading" alt="loading...">
+        {% comment %}
+        <!-- 
+        <div class="note-form note-element">
+            <div>New Note</div>
+            <label for="subject">Subject:</label>
+            <input type="text" name="subject" id="subject">
+            <button>Save</button>
+            <textarea name="note" id="note"></textarea>
+        </div> -->
+        <!-- {% for n in notes %}
+            <div class="note-element">
+                <div class="note-subject">{{ n.subject }}</div>
+
+                <div class="note-subject">
+                    <div class="unedit-subject">{{ n.suject }}</div>
+                    <input class="edit-note" name="edit-note" value="{{ n.subject }}">
+                </div>
+
+                <div class="note-text">
+                    <div class="unedit-note" id="subject-{{ n.id }}">{{ n.note }}</div>                    
+                    <textarea class="edit-note" id="note-{{ n.id }}" name="edit-note">{{ n.note }}</textarea>
+                </div>
+                <div class="note-dates">
+                    <span>Created at: <span class="date-text">{{ n.created_at }}</span></span><br>
+                    <span>Updated at: <span class="date-text">{{ n.updated_at }}</span></span>
+                    <a href="{% url 'notes-json' n.id %}" id="submit-{{ n.id }}" class="save-changes">Save</a>
+                    <img class="star-logo" src="{% static 'img/star-logo.png' %}" alt="Favorite button">
+                </div>
+            </div>
+            {% endfor %} -->
+        {% endcomment %}
+    </div>
+    <script src="{% static 'js/notes_script.js' %}"></script>
+{% endblock content %}
+    
+    

@@ -1,0 +1,220 @@
+
+.top-bar {
+    /* height: 25px; */
+    /* position: fixed;
+    z-index: 9; */
+    width: 100%;
+    background-color: black;
+}
+
+.top-bar .add-note {
+    margin: 3px;
+    border-radius: 5px;
+    border-style: solid;
+    border-color: green;
+    color: green;
+    background-color: cadetblue;
+}
+
+.top-bar .add-note:hover {
+    cursor: pointer;
+    border-color: cadetblue;
+    color: cadetblue;
+    background-color: green;
+}
+
+.notes-container {
+    display: flex;
+    justify-content:flex-start;
+    align-items: center;
+    align-content: center;
+    flex-wrap: wrap;
+    padding: 17px;
+    color: black;
+}
+
+.note-element {
+    overflow: hidden;
+    border: 3px dashed gray;
+    border-radius: 10px;
+    background-color: lightgray;
+    width: 450px;
+    height: 212px;
+    margin: 20px;
+}
+
+.note-subject {
+    background-color: gray;
+    font-family: 'Trebuchet MS';
+    padding: 5px;
+    color: white;
+    text-shadow: black 1px 1px 1px;
+}
+
+.edit-subject {
+    display: none;
+    width: 99%;
+    height: 21px;
+    margin: 0;
+}
+
+.note-text {
+    padding: 5px;
+    height: 150px;
+    font-size: 0.8em;
+    overflow: auto;
+}
+
+.edit-note {
+    display: none;
+    height: 160px;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.note-dates {
+    position: relative;
+    /* top: 10px; */
+    font-size: 9px;
+    padding: 1.5px;
+    background-color: black;
+    color: gray;
+}
+
+.note-dates .date-text {
+    color: white;
+}
+
+.sc-btns {
+    display: none;
+    position: absolute;
+    z-index: 3;
+    right: 5px;
+    top: 1px;
+}
+
+.sc-btns button {
+    margin: 0 3px;
+}
+
+.star-logo {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    width: 17px;
+    padding: 2px;
+}
+
+.star-logo:hover {
+    cursor: pointer;
+    border-radius: 50%;
+    background-color: darkgray;
+}
+
+.delete-logo {
+    width: 17px;
+    padding: 2px;
+    position: absolute;
+    top: 1.5px;
+    right: 27px;
+}
+
+.delete-logo:hover {
+    cursor: pointer;
+    border-radius: 50%;
+    background-color: darksalmon;
+}
+
+.note-form {
+    padding: 0;
+    /* display: none; */
+    text-align: center;
+    /* padding: 20px; */
+}
+
+.note-form textarea {
+    width: 100%;
+    height: 67%;
+}
+.note-form div {
+    padding: 5px;
+    height: 20px;
+    margin-bottom: 5px;
+    background-color: gray;
+    width: 100%;
+    text-shadow: white 1px 1px 1px;
+}
+
+.note-form button {
+    padding: 2px 8px;
+    margin: 0 5px;
+}
+
+#subject {
+    height: 20px;
+    width: 300px;
+    margin-bottom: 5px;
+}
+
+/* .save-changes {
+    background-color: gray;
+    border-radius: 3px;
+    color: white;
+    border: 2px solid white;
+} */
+
+/* .save-changes:hover {
+    cursor: pointer;
+} */
+
+.green-btn {
+    border-radius: 5px;
+    border-style: solid;
+    border-color: green;
+    color: green;
+    background-color: cadetblue;
+}
+
+.red-btn {
+    border-radius: 5px;
+    border-style: solid;
+    border-color: red;
+    color: red;
+    background-color:darksalmon;
+}
+
+.green-btn:hover {
+    cursor: pointer;
+    border-color: cadetblue;
+    color: cadetblue;
+    background-color: green;
+}
+
+.red-btn:hover {
+    cursor: pointer;
+    border-color: darksalmon;
+    color: darksalmon;
+    background-color: red;
+}
+
+.loading {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 150px;
+}
+
+.no-notes-add-note {
+    display: none;
+}
+
+.no-notes-add-note span {
+    color: white;
+}
+
+.no-notes-add-note span:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
