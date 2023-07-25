@@ -26,14 +26,25 @@
     <div class="top-bar">
         <button class="add-note">Add Note</button>
         <input type="search" class="search" placeholder="Search...">
+        <select name="sort-by" id="sort-by">
+            <option value="date-created" selected>Date Created</option>
+            <option value="date-updated">Date Updated</option>
+            <option value="subject">Subject</option>
+            <option value="favorite">Favorite</option>
+        </select>
+        <input type="radio" class="sort-order" name="sort-order" id="asc">
+        <label for="asc" class="sort-order">Older to Newer</label>
+        <input type="radio" class="sort-order" name="sort-order" id="des" checked>
+        <label for="des" class="sort-order">Newer to Older</label>
     </div>
+
     <span style="display: none;" class="csrf">{% csrf_token %}</span>
     <span style="display: none;" class="star-logo-src">{% static 'img/star-logo.png' %}</span>
     <span style="display: none;" class="gold-star-logo-src">{% static 'img/gold-star-logo.png' %}</span>
     <span style="display: none;" class="delete-logo-src">{% static 'img/delete-logo.png' %}</span>
+    <h2 class="no-notes-add-note">No Notes, <span>Add</span> your first note!</h2>
+    <img src="{% static 'img/spinner.gif' %}" class="loading" alt="loading...">
     <div class="notes-container">
-        <h2 class="no-notes-add-note">No Notes, <span>Add</span> your first note!</h2>
-        <img src="{% static 'img/spinner.gif' %}" class="loading" alt="loading...">
         {% comment %}
         <!-- 
         <div class="note-form note-element">

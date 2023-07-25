@@ -173,7 +173,10 @@ class NotesView(View):
     
 class NotesJson(View):
     def get(self, request):
-        notes = Notes.objects.filter(owner=request.user).order_by('-updated_at')
+        try:
+            notes = Notes.objects.filter(owner=request.user).order_by('-updated_at')
+        except:
+            return JsonResponse('{}', safe=False)
         serialized = serializers.serialize('json', notes)
         return JsonResponse(serialized, safe=False)
         

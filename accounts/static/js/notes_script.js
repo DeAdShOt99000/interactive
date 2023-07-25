@@ -78,6 +78,7 @@
         cancelBtn.onclick = function(){
             notesContainer.removeChild(newNoteForm);
             currentElement = false
+            noNotesAddNote.style.display = 'block'
         }
         // currentElement = 'pending-new-note'
         pendingNewNote = true
@@ -115,7 +116,7 @@
             notesContainer.removeChild(noteForm)
         }
         currentElement = false
-        if (notesContainer.children.length < 2){
+        if (notesContainer.children.length < 1){
             noNotesAddNote.style.display = 'block'
             // console.log('Inside')
         }
@@ -211,7 +212,7 @@
         .then(function(){
             notesContainer.removeChild(noteElement)
             // console.log(notesContainer.children)
-            if (notesContainer.children.length < 2){
+            if (notesContainer.children.length < 1){
                 noNotesAddNote.style.display = 'block'
             }
         })
@@ -245,7 +246,7 @@
     .then(data => {
         const jsonData = JSON.parse(data)
         // console.log(jsonData)
-        notesContainer.removeChild(document.querySelector('.loading'))
+        document.body.removeChild(document.querySelector('.loading'))
         
         if (Object.keys(jsonData).length < 1){
             noNotesAddNote.style.display = 'block'
@@ -289,6 +290,93 @@
     search.addEventListener('change', function(){
         //
     })
+
+    const sortBy = document.getElementById('sort-by')
+
+    const sortAsc = document.getElementById('asc')
+    const sortAscLabel = document.querySelector(`label[for="${sortAsc.id}"]`)
+    
+    const sortDes = document.getElementById('des')
+    const sortDesLabel = document.querySelector(`label[for="${sortDes.id}"]`)
+
+    sortBy.addEventListener('change', function(){
+        switch (sortBy.value){
+            case 'date-created': setSortOrder('Older to Newer', 'Newer to Older', 'des'); break;
+            case 'date-updated': setSortOrder('Older to Newer', 'Newer to Older', 'des'); break;
+            case 'subject': setSortOrder('A to Z', 'Z to A', 'asc'); break;
+            case 'favorite': setSortOrder('Favorite first', 'Favorite last', 'asc'); break;
+        }
+    })
+
+    function setSortOrder(ascLabel, desLabel, order){
+        sortAscLabel.innerText = ascLabel
+        sortDesLabel.innerText = desLabel
+
+        if (order == 'asc'){
+            sortAsc.setAttribute('checked', '')
+            sortDes.removeAttribute('checked')
+        } else if (order == 'des'){
+            sortAsc.removeAttribute('checked')
+            sortDes.setAttribute('checked', '')
+        }
+    }
+
+    function setSortBy(selectedSort, order){
+        let newArray = [...notesContainer.children] //[...X] is spread operator
+        // console.log(newArray)
+        switch (selectedSort){
+            case 'date-created':
+                newArray.sort((elem1, elem2) => {
+                    // console.log(new Date(elem1.querySelector('.created-span .date-text').id))
+                    const date1 = new Date(elem1.querySelector('.created-span .date-text').id.slice(1));
+                    const date2 = new Date(elem2.querySelector('.created-span .date-text').id.slice(1));
+                    if (order == 'asc'){
+                        return date1 - date2
+                    } else if (order == 'des'){
+                        return date2 - date1
+                    }
+                }); break;
+            case 'date-updated':
+                newArray.sort((elem1, elem2) => {
+                    // console.log(new Date(elem1.querySelector('.updated-span .date-text').id.slice(1)))
+                    const date1 = new Date(elem1.querySelector('.updated-span .date-text').id.slice(1));
+                    const date2 = new Date(elem2.querySelector('.updated-span .date-text').id.slice(1));
+                    if (order == 'asc'){
+                        return date1 - date2
+                    } else if (order == 'des'){
+                        return date2 - date1
+                    }
+                }); break;
+            case 'subject':
+                newArray.sort((elem1, elem2) => {
+                    // console.log(elem2.querySelector('.unedit-subject').innerText)
+                    const subject1 = elem1.querySelector('.unedit-subject').innerText;
+                    const subject2 = elem2.querySelector('.unedit-subject').innerText;
+                    if (order == 'asc'){
+                        return subject1.localeCompare(subject2)
+                    } else if (order == 'des'){
+                        return subject2.localeCompare(subject1)
+                    }
+                }); break;
+            case 'favorite':
+                newArray.sort((elem1, elem2) => {
+                    // console.log(elem1.querySelector('.star-logo').src.includes('gold'))
+                    const fav1 = elem1.querySelector('.star-logo').src.includes('gold') ? 0: 1;
+                    const fav2 = elem2.querySelector('.star-logo').src.includes('gold') ? 0: 1;
+                    if (order == 'asc'){
+                        return fav1 - fav2
+                    } else if (order == 'des'){
+                        return fav2 - fav1
+                    }
+                }); break;
+                    
+                
+        }
+        for (let n of newArray){
+            console.log(n)
+        }
+    }
+    setTimeout(function(){setSortBy('favorite', 'des')}, 500)
 
     function highlight(text, word){
         let start = 0
@@ -364,6 +452,7 @@
         
         const cDateText = document.createElement('span')
         cDateText.className = 'date-text'
+        cDateText.id = `c${noteObj.created_at}`
         cDateText.innerText = prettyDate(noteObj.created_at)
 
         // const d = new Date(noteObj.created_at)
@@ -375,6 +464,7 @@
         
         const uDateText = document.createElement('span')
         uDateText.className = 'date-text'
+        uDateText.id = `u${noteObj.updated_at}`
         uDateText.innerText = prettyDate(noteObj.updated_at)
         
         const scBtns = document.createElement('div')
