@@ -246,15 +246,83 @@
         const jsonData = JSON.parse(data)
         // console.log(jsonData)
         notesContainer.removeChild(document.querySelector('.loading'))
-
+        
         if (Object.keys(jsonData).length < 1){
             noNotesAddNote.style.display = 'block'
         } else {
             for (let entry in jsonData){
                 createNote(jsonData[entry].fields, jsonData[entry].pk)
             }
+            // console.log(notesContainer.children)
         }
     })
+
+    // const g = 'This is what it is'
+    // let start = 0
+    // while (g.indexOf('s', start) != -1){
+    //     const k = g.indexOf('s', start)
+    //     // console.log(k)
+    //     // console.log(g.slice(k, k+1))
+    //     start = k + 1
+    // }
+
+    // function insertAt(text, word, index){
+    //     if (index < 0 || index > text.length){
+    //         return text;
+    //     }
+
+    //     const a = text.slice(0, index)
+    //     const b = text.slice(index)
+
+    //     return a + word + b;
+    // }
+
+    // function putBrackets(text, index1, index2){
+    //     const a = text.slice(0, index1)
+    //     const b = text.slice(index1, index2)
+    //     const c = text.slice(index2)
+
+    //     return a + '<' + b + '>' + c
+    // }
+
+    const search = document.querySelector('.search')
+    search.addEventListener('change', function(){
+        //
+    })
+
+    function highlight(text, word){
+        let start = 0
+        let indecies = []
+        while (text.indexOf(word, start) != -1){
+            indecies.push(text.indexOf(word, start))
+            start = text.indexOf(word, start) + 1
+        }
+
+        const opening = '<span class="highlight">'
+        const closing = '</span>'
+        
+        let newText = text
+        let incrementor = 0
+
+        for (let ind of indecies){
+            // console.log(ind)
+            const ind1 = ind + incrementor
+            // console.log(ind1)
+            const ind2 = word.length + ind1
+
+            const a = newText.slice(0, ind1)
+            const b = newText.slice(ind1, ind2)
+            const c = newText.slice(ind2)
+            newText = a + opening + b + closing + c
+            incrementor += (opening + closing).length
+        }
+        return newText
+    }
+    
+    // console.log(highlight('aa a aa a aaaa a', 'a'))
+
+    // console.log(putBrackets('My name is Ziyad', 3, 7))
+    // console.log(insertAt('hello my friends', '!', 6))
 
 
     // const noteForm = document.querySelector('.note-form')
