@@ -412,46 +412,51 @@
     function highlight(text, word){
         let lowerText = text.toLowerCase();
         word = word.toLowerCase();
+
         if (word.length > 0){
             let start = 0
             let indecies = []
+            let currentInd;
+            let inLst;
+            
             while (lowerText.indexOf(word, start) != -1){
-                indecies.push(lowerText.indexOf(word, start))
-                console.log(lowerText.indexOf(word, start))
-                start = lowerText.indexOf(word, start) + 1
+                currentInd = lowerText.indexOf(word, start)
+                // console.log('kk', currentInd)
+                inLst = []
+
+                start = currentInd + 1
+                while (lowerText.indexOf(word, start) != -1 && (lowerText.indexOf(word, start) - currentInd) < word.length){
+                    // console.log(currentInd, lowerText.indexOf(word, start))
+                    inLst.push(currentInd)
+                    currentInd = lowerText.indexOf(word, start)
+                    start = currentInd + 1
+                }
+                if (inLst.length > 0){
+                    inLst.push(currentInd)
+                    indecies.push(inLst)
+                } else {
+                    indecies.push(currentInd)
+                    currentInd = lowerText.indexOf(word, start)
+                }
             }
     
-            const opening = '<span class="highlight">'
+            const opening = '<span style="background-color: aqua;">'
             const closing = '</span>'
             
             let newText = text
             let incrementor = 0
-            
-            let secondIter = 0
+
+            let ind1;
+            let ind2;
             for (let ind of indecies){
-                // console.log(ind)
-                let ind1 = ind + incrementor
-                // console.log(ind1)
-                let ind2 = word.length + ind1
-                if (secondIter){
-                    if (newText.slice(0, ind1)[newText.slice(0, ind1).length - 1] != '>'){
-                        incrementor += (word.length-1)
-                        ind1 = ind + incrementor
-                        ind2 = word.length + ind1
-                    }
+                if (Array.isArray(ind)){
+                    ind1 = ind[0] + incrementor
+                    ind2 = word.length + (incrementor + ind[ind.length - 1])
+                } else {
+                    ind1 = ind + incrementor
+                    ind2 = word.length + ind1
                 }
-                else {
-                    secondIter++
-                }
-                const a = newText.slice(0, ind1)
-                console.log('a:', a, ind1)
-                const b = newText.slice(ind1, ind2)
-                console.log('b:', b, b.length)
-                const c = newText.slice(ind2)
-                console.log('c:', c, ind2)
-                newText = a + opening + b + closing + c
-                console.log('all:', newText)
-                
+                newText = newText.slice(0, ind1) + opening + newText.slice(ind1, ind2) + closing + newText.slice(ind2);
                 incrementor += (opening + closing).length
             }
             return newText
