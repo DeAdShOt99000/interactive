@@ -287,8 +287,21 @@
     // }
 
     const search = document.querySelector('.search')
-    search.addEventListener('change', function(){
-        //
+
+    let currentSearchElems = notesContainer
+
+    search.addEventListener('input', function(){
+        // console.log(document.querySelectorAll('.note-element[style*="display: block;"]'))
+        for (let elem of document.querySelectorAll('.note-element')){
+            if (elem.querySelector('.unedit-subject').innerText.toLowerCase().includes(search.value.toLowerCase()) || elem.querySelector('.unedit-note').innerText.toLowerCase().includes(search.value.toLowerCase())){
+                elem.querySelector('.unedit-subject').innerHTML = highlight(elem.querySelector('.unedit-subject').innerText, search.value)
+                elem.querySelector('.unedit-note').innerHTML = highlight(elem.querySelector('.unedit-note').innerText, search.value)
+                elem.style.display = 'block'
+                // console.log(highlight(elem.querySelector('.unedit-note').innerText, search.value))
+            } else {
+                elem.style.display = 'none'
+            }
+        }
     })
 
     const sortBy = document.getElementById('sort-by')
@@ -300,111 +313,157 @@
     const sortDesLabel = document.querySelector(`label[for="${sortDes.id}"]`)
 
     sortBy.addEventListener('change', function(){
+        // let newOrder;
         switch (sortBy.value){
-            case 'date-created': setSortOrder('Older to Newer', 'Newer to Older', 'des'); break;
-            case 'date-updated': setSortOrder('Older to Newer', 'Newer to Older', 'des'); break;
-            case 'subject': setSortOrder('A to Z', 'Z to A', 'asc'); break;
-            case 'favorite': setSortOrder('Favorite first', 'Favorite last', 'asc'); break;
-        }
+            case 'date-created':
+                setSortBy('date-created')
+                break;
+            case 'date-updated':
+                setSortBy('date-updated')
+                break;
+            case 'subject':
+                setSortBy('subject')
+                break;
+            case 'favorite':
+                setSortBy('favorite')
+                break;
+            }
+        })
+
+    document.querySelectorAll('.sort-order').forEach(each => {
+        each.addEventListener('change', function(){
+            setSortBy(sortBy.value, each.id)
+            console.log(sortBy.value, each.id)
+        })
     })
 
-    function setSortOrder(ascLabel, desLabel, order){
-        sortAscLabel.innerText = ascLabel
-        sortDesLabel.innerText = desLabel
-
-        if (order == 'asc'){
-            sortAsc.setAttribute('checked', '')
-            sortDes.removeAttribute('checked')
-        } else if (order == 'des'){
-            sortAsc.removeAttribute('checked')
-            sortDes.setAttribute('checked', '')
-        }
-    }
-
-    function setSortBy(selectedSort, order){
+    function setSortBy(selectedSort, order='asc'){
         let newArray = [...notesContainer.children] //[...X] is spread operator
         // console.log(newArray)
         switch (selectedSort){
             case 'date-created':
+                sortAscLabel.innerText = 'Older to Newer'
+                sortDesLabel.innerText = 'Newer to Older'
+                
                 newArray.sort((elem1, elem2) => {
                     // console.log(new Date(elem1.querySelector('.created-span .date-text').id))
                     const date1 = new Date(elem1.querySelector('.created-span .date-text').id.slice(1));
                     const date2 = new Date(elem2.querySelector('.created-span .date-text').id.slice(1));
-                    if (order == 'asc'){
-                        return date1 - date2
-                    } else if (order == 'des'){
-                        return date2 - date1
-                    }
+                    return toggleAndReturn(order, date1, date2)
                 }); break;
+                
             case 'date-updated':
+                sortAscLabel.innerText = 'Older to Newer'
+                sortDesLabel.innerText = 'Newer to Older'
+                
                 newArray.sort((elem1, elem2) => {
                     // console.log(new Date(elem1.querySelector('.updated-span .date-text').id.slice(1)))
                     const date1 = new Date(elem1.querySelector('.updated-span .date-text').id.slice(1));
                     const date2 = new Date(elem2.querySelector('.updated-span .date-text').id.slice(1));
-                    if (order == 'asc'){
-                        return date1 - date2
-                    } else if (order == 'des'){
-                        return date2 - date1
-                    }
+                    return toggleAndReturn(order, date1, date2)
                 }); break;
+
             case 'subject':
+                sortAscLabel.innerText = 'A to Z'
+                sortDesLabel.innerText = 'Z to A'
+                
                 newArray.sort((elem1, elem2) => {
                     // console.log(elem2.querySelector('.unedit-subject').innerText)
                     const subject1 = elem1.querySelector('.unedit-subject').innerText;
                     const subject2 = elem2.querySelector('.unedit-subject').innerText;
-                    if (order == 'asc'){
-                        return subject1.localeCompare(subject2)
-                    } else if (order == 'des'){
-                        return subject2.localeCompare(subject1)
-                    }
+                    // console.log('inn')
+                    return toggleAndReturn(order, subject1, subject2, true)
                 }); break;
+                
             case 'favorite':
+                sortAscLabel.innerText = 'Favorite first'
+                sortDesLabel.innerText = 'Favorite last'
+
                 newArray.sort((elem1, elem2) => {
                     // console.log(elem1.querySelector('.star-logo').src.includes('gold'))
                     const fav1 = elem1.querySelector('.star-logo').src.includes('gold') ? 0: 1;
                     const fav2 = elem2.querySelector('.star-logo').src.includes('gold') ? 0: 1;
-                    if (order == 'asc'){
-                        return fav1 - fav2
-                    } else if (order == 'des'){
-                        return fav2 - fav1
-                    }
+                    return toggleAndReturn(order, fav1, fav2)
                 }); break;
-                    
-                
         }
-        for (let n of newArray){
-            console.log(n)
+        notesContainer.innerHTML = ''
+        newArray.forEach(elem => notesContainer.appendChild(elem))
+    }
+
+    function toggleAndReturn(order, a, b, string=false){
+        switch (order){
+            case 'asc':
+                sortDes.checked = false
+                sortAsc.checked = true
+                if (string){
+                    return a.localeCompare(b)
+                }
+                return a - b; break;
+            case 'des':
+                sortAsc.checked = false
+                sortDes.checked = true
+                if (string){
+                    return b.localeCompare(a)
+                }
+                return b - a; break;
         }
     }
-    setTimeout(function(){setSortBy('favorite', 'des')}, 500)
 
     function highlight(text, word){
-        let start = 0
-        let indecies = []
-        while (text.indexOf(word, start) != -1){
-            indecies.push(text.indexOf(word, start))
-            start = text.indexOf(word, start) + 1
+        let lowerText = text.toLowerCase();
+        word = word.toLowerCase();
+        if (word.length > 0){
+            let start = 0
+            let indecies = []
+            while (lowerText.indexOf(word, start) != -1){
+                indecies.push(lowerText.indexOf(word, start))
+                console.log(lowerText.indexOf(word, start))
+                start = lowerText.indexOf(word, start) + 1
+            }
+    
+            const opening = '<span class="highlight">'
+            const closing = '</span>'
+            
+            let newText = text
+            let incrementor = 0
+            
+            let secondIter = 0
+            for (let ind of indecies){
+                // console.log(ind)
+                let ind1 = ind + incrementor
+                // console.log(ind1)
+                let ind2 = word.length + ind1
+                if (secondIter){
+                    if (newText.slice(0, ind1)[newText.slice(0, ind1).length - 1] != '>'){
+                        incrementor += (word.length-1)
+                        ind1 = ind + incrementor
+                        ind2 = word.length + ind1
+                    }
+                }
+                else {
+                    secondIter++
+                }
+                const a = newText.slice(0, ind1)
+                console.log('a:', a, ind1)
+                const b = newText.slice(ind1, ind2)
+                console.log('b:', b, b.length)
+                const c = newText.slice(ind2)
+                console.log('c:', c, ind2)
+                newText = a + opening + b + closing + c
+                console.log('all:', newText)
+                
+                incrementor += (opening + closing).length
+            }
+            return newText
         }
+        return lowerText
+    }
 
-        const opening = '<span class="highlight">'
-        const closing = '</span>'
-        
-        let newText = text
-        let incrementor = 0
-
-        for (let ind of indecies){
-            // console.log(ind)
-            const ind1 = ind + incrementor
-            // console.log(ind1)
-            const ind2 = word.length + ind1
-
-            const a = newText.slice(0, ind1)
-            const b = newText.slice(ind1, ind2)
-            const c = newText.slice(ind2)
-            newText = a + opening + b + closing + c
-            incrementor += (opening + closing).length
+    function unHighlight(element){
+        for (let span of element.querySelectorAll('.highlight')){
+            const spanTextNode = document.createTextNode(span.innerText)
+            element.replaceChild(spanTextNode, span)
         }
-        return newText
     }
     
     // console.log(highlight('aa a aa a aaaa a', 'a'))
@@ -418,10 +477,10 @@
     function createNote(noteObj, pk, newEntry=false){
         const noteElement = document.createElement('div')
         noteElement.className = 'note-element'
+        noteElement.setAttribute('style', 'display: block;')
 
         const noteSubject = document.createElement('div')
         noteSubject.className = 'note-subject'
-        // noteSubject.innerText = noteObj.subject
 
         const unEditSubject = document.createElement('div')
         unEditSubject.className = 'unedit-subject'
@@ -488,7 +547,6 @@
         starLogo.className = 'star-logo'
         starLogo.src = noteObj.favorite ? document.querySelector('.gold-star-logo-src').innerText :document.querySelector('.star-logo-src').innerText;
         starLogo.alt = 'Favorite button'
-        // starLogo.id = `/favorite-json/${pk}`
         
         createdSpan.appendChild(cDateText)
         updatedSpan.appendChild(uDateText)
